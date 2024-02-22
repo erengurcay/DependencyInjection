@@ -8,18 +8,34 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class MyController {
+
+    //Field injection
     @Autowired
     private FirstClass firstClass;
-    @Autowired
+
     private SecondClass secondClass;
-    @GetMapping("/first-class")
-    public String getNameOfFirstClass(){
-        return firstClass.getName();
+
+    private ThirdClass thirdClass;
+
+    //Constructor injection
+    public MyController(ThirdClass thirdClass) {
+        this.thirdClass = thirdClass;
     }
-    @GetMapping("/second-class")
-    public String getNameOfSecondClass(){
-        return secondClass.getName();
+
+    @GetMapping("/names")
+    public String getNameOfClass(){
+        return this.firstClass.getName() + " - " +
+                this.secondClass.getName() + " - " +
+                this.thirdClass.getName();
     }
+    @Autowired //Setter injection
+    public void setSecondClass(SecondClass secondClass) {
+        this.secondClass = secondClass;
+    }
+
+
+
+
 
 
 }
